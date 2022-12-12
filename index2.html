@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel= "stylesheet"  type="text/css" href="st.css">
+
+</head>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+
+<div class="header">
+    <div class = "inner_header">
+        <div class = "title1">
+            <h1>Rise Of <span>Social Media - Usage By Social Media Apps</span></h1>
+        </div>
+    </div>
+</div>
+
+<script src="lib/d3.js"></script>
+<script>
+var margin = {
+top: 50,
+right: 50,
+bottom: 70,
+left: 70
+};
+var width = 1200 - margin.left - margin.right;
+var height = 500 - margin.top - margin.bottom;
+
+var color = d3.scaleOrdinal();
+
+var xScale = d3.scaleBand().range([0, width]);
+var yScale = d3.scaleLinear().range([height, 0]);
+
+
+var svg = d3.select('body').append('svg')
+.attr('width', width + margin.left + margin.right)
+.attr('height', height + margin.top + margin.bottom)
+.append('g')
+.attr('transform', `translate(${margin.left}, ${margin.top})`)
+
+var data = d3.csvParse('Channel,Gen_Z,Gen_Y,Gen_X\nYoutube,90,93,87\nFacebook,76,84,79\nInstagram,75,57,47\nSnapchat,73,47,25\nTwitter,44,31,26\n');
+
+data.forEach(function(d) {
+d.Gen_Z = parseInt(d.Gen_Z);
+d.Gen_Y = parseInt(d.Gen_Y);
+d.Gen_X = parseInt(d.Gen_X);
+d.Baby_Boomer = parseInt(d.Baby_Boomer);
+d.Traditionalist = parseInt(d.Traditionalist);
+});
+
+
+
+xScale.domain(data.map(d => d.Channel));
+yScale.domain([0, 100]);
+
+var color = d3.scaleOrdinal().range(['#e41a1c','#377eb8','#4daf4a']);
+
+var barWidth = (width / data.length) /3; // bar height equidistant across graph height
+
+var bar = svg.selectAll('.bar1')
+.data(data, d => d.Gen_Z)
+.enter().append('g')
+.attr('transform', (d, i) => `translate(${(i * 3) * barWidth + 5}, 0)`)
+.attr('class', 'bar1');
+
+var bar2 = svg.selectAll('.bar2')
+.data(data, d => d.Gen_Y)
+.enter().append('g')
+.attr('transform', (d, i) => `translate(${barWidth + (i*barWidth * 3) + 1},0)`)
+.attr('class','bar2') ;
+
+var bar3 = svg.selectAll('.bar3')
+    .data(data, d => d.Gen_X)
+    .enter().append('g')
+    .attr('transform', (d, i) => `translate(${(barWidth * 2) + (i * barWidth * 3) - 3},0)`)
+    .attr('class', 'bar3');
+
+
+        bar.append('rect')
+            .attr('y', function (d) {
+                return yScale(d.Gen_Z)
+            })
+            .attr('width', barWidth - 5)
+            .attr('height', d => height - yScale(d.Gen_Z))
+            .style('fill', color('Gen_Z'));
+
+        bar2.append('rect')
+            .attr('y', d => yScale(d.Gen_Y))
+            .attr('width', barWidth - 5)
+            .attr('height', d => height - yScale(d.Gen_Y))
+            .style('fill', color('Gen_Y'));
+
+        bar3.append('rect')
+            .attr('y', d => yScale(d.Gen_X))
+            .attr('width', barWidth - 5)
+            .attr('height', d => height - yScale(d.Gen_X))
+            .style('fill', color('Gen_X'));
+
+
+        bar.append('text')
+            .text(d => d.Gen_Z)
+            .attr('text-anchor', 'middle')
+            .attr('x', barWidth / 2)
+            .attr('y', d => yScale(d.Gen_Z) - 5);
+
+        bar2.append('text')
+            .text(d => d.Gen_Y)
+            .attr('text-anchor', 'middle')
+            .attr('transform', d => `translate(${barWidth / 2},${yScale(d.Gen_Y) - 5})`)
+
+        bar3.append('text')
+            .text(d => d.Gen_X)
+            .attr('text-anchor', 'middle')
+            .attr('transform', d => `translate(${barWidth / 2},${yScale(d.Gen_X) - 5})`)
+
+
+        svg.append('g')
+            .attr('transform', `translate(0, ${height})`)
+            .call(d3.axisBottom(xScale).tickSize(0));
+
+        svg.append('g')
+            .call(d3.axisLeft(yScale));
+
+        svg.append('text')
+            .text('Chart: Percentage of Social Media Users Per Age Group in US ')
+            .style('font-size', '20px')
+            .attr('transform', `translate(${0 - margin.left}, ${0 - (margin.top / 2)})`);
+
+        svg.append('text')
+            .text('Top 5 Latest Social Media Apps')
+            .attr('text-anchor', 'middle')
+            .attr('transform', `translate(${width / 2}, ${height + (margin.bottom / 2)})`);
+
+
+        svg.append('text')
+            .text('Percentage Usage')
+            .attr('transform', 'rotate(-90)')
+            .attr('text-anchor', 'middle')
+            .attr('x', 0 - (height / 2))
+            .attr('y', 0 - (margin.left / 2))
+
+        var legend = svg.selectAll('.legend')
+            .data(color.domain())
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+
+        var legendSpacing = 100;
+
+        legend.append('text')
+            .text(d => d)
+            .attr('transform', (d, i) => `translate(${i * legendSpacing}, ${height + (margin.bottom)})`)
+
+        legend.append('rect')
+            .attr('width', legendSpacing / 2)
+            .attr('height', 5)
+            .style('fill', color)
+            .attr('transform', (d, i) => `translate(${i * legendSpacing}, ${height + (margin.bottom - 25)})`)
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<script src="lib/d3.js"></script>
+<meta charset="utf-8">
+
+<script src="https://d3js.org/d3.v4.js"></script>
+<link rel= "stylesheet"  type="text/css" href="st.css">
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+
+<div class="header">
+    <div class = "inner_header">
+        <div class = "title1">
+            <h1>Impact of <span>Social Media - Most used words in 16 surveys</span></h1>
+        </div>
+    </div>
+</div>
+
+<div id="my_dataviz"></div>
+
+<script>
+
+    // List of words
+    var myWords = [{word: "High screentime", size: "9"}, {word: "depression", size: "16"}, {word: "mental illness", size: "4"}, {word: "addiction", size: "9"}, {word: "anxiety", size: "13"}, {word: "loneliness", size: "3"}, {word: "confidentiality", size: "7"}, {word: "mental health", size: "11"}, {word: "insomnia", size: "6"}, {word: "unhealthy behaviors", size: "7"}, {word: "obesity", size: "12"}, {word: "sleep", size: "15"}, {word: "attention", size: "10"}, {word: "learning impairment", size: "8"}, {word: "illicit substance", size: "7"}, {word: "sexual behaviors", size: "10"}, {word: "cyberbullying", size: "25"}, {word: "compromised privacy", size: "8"}, {word: "psychological problems", size: "13"}, {word: "sedentary lifestyle", size: "8"}, {word: "behavioral problems", size: "7"}, {word: "sexting", size: "10"}, {word: "myopia", size: "8"}, {word: "online grooming", size: "6"}, {word: "repetitive activities", size: "5"}, {word: "musculoskeletal disorders", size: "4"}, {word: "life satisfaction", size: "8"} ]
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 100, right: 100, bottom: 10, left: 100},
+        width = 700 - margin.left - margin.right,
+        height = 800 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")")
+        .attr("fill",'#377eb8');
+
+
+    var layout = d3.layout.cloud()
+        .size([width, height])
+        .words(myWords.map(function(d) { return {text: d.word, size:d.size}; }))
+        .padding(3)        //space between words
+        .rotate(function() { return ~~(Math.random() * 2) * 90; })
+        .fontSize(function(d) { return d.size; })
+        .on("end", draw);
+    layout.start();
+
+
+    function draw(words) {
+        svg
+            .append("g")
+            .attr("transform", "translate(" + layout.size()[0]/2   + "," + layout.size()[1]/3  + ")")
+            .selectAll("text")
+            .data(words)
+            .enter().append("text")
+            .style("font-size", function(d) { return d.size; })
+            .style("fill", 'red')
+            .attr("text-anchor", "middle")
+            .style("font-family", "Impact")
+            .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function(d) { return d.text; });
+    }
+</script>

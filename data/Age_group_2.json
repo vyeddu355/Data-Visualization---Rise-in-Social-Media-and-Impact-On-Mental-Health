@@ -1,0 +1,27 @@
+[
+   {
+      "channel": "Youtube",
+      "values": [
+         {
+            "percentage": 90,
+            "age_group": "Gen Z"
+         },
+         {
+            "percentage": 93,
+            "age_group": "Gen Y"
+         },
+         {
+            "percentage": 87,
+            "age_group": "Gen X"
+         },
+         {
+            "percentage": 70,
+            "age_group": "Baby Boomers"
+         },
+         {
+            "percentage": 38,
+            "age_group": "Traditionalist"
+         }
+      ]
+   }
+]
