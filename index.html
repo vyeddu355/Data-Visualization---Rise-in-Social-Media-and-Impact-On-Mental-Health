@@ -1,823 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.13.0/d3-legend.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
     <link rel= "stylesheet"  type="text/css" href="st.css">
-    <meta charset="UTF-8">
-    <div class="header">
-        <div class = "inner_header">
-            <div class = "title1">
-                <h1>Rise Of Social Media - Number of Users By Social Media Apps</h1>
-            </div>
-        </div>
-    </div>
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+    <script src="index.js">    </script>
+
+    <script src="script.js">
+      
+    </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <div id="my_dataviz"></div>
+
     <style>
-        .tooltipData{
-            font-family: sans-serif;
-            font-size: small;
-        }
-        #tooltip{
-            opacity: 0;
-            background-color: antiquewhite;
-            position: absolute;
-            height: 60px;
-            width: 150px;
+      #tooltip {
+        color: black;
+        background: white;
+        box-shadow: 0 2px 24px -10px rgba(0, 0, 0, 0.85);
+        padding: 10px;
+        position: absolute;
+        z-index: 10;
+        visibility: hidden;
+        white-space: nowrap;
+        pointer-events: none;
+      }
 
-        }
-        svg{
-            width: 70vw;
-            height: 65vh;
-            background-color: #fefefe;
-            margin: 10vw;
-            border: solid darkgray 0px;
-        }
-        .clsfb {
-            stroke: #660000;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsFlickr {
-            stroke: green;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsFriendster {
-            stroke: navy;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsGoogle_Buzz {
-            stroke: mediumvioletred;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsGooglePlus {
-            stroke: black;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsHi5 {
-            stroke: saddlebrown;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsInsta {
-            stroke: yellow;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsMySpace {
-            stroke: orangered;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsOrkut {
-            stroke: slategray;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsPinterest {
-            stroke: purple;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsReddit {
-            stroke: burlywood;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsSnapchat {
-            stroke: cornflowerblue;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsTikTok {
-            stroke: goldenrod;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsTumblr {
-            stroke: teal;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsTwitter {
-            stroke: sandybrown;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsWeChat {
-            stroke: deepskyblue;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsWeibo {
-            stroke: mediumseagreen;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsWhatsapp {
-            stroke: blue;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .clsYouTube {
-            stroke: khaki;
-            stroke-width: 4px;
-            fill: none;
-        }
-        .axis text{
-            font-size: 18pt;
-            font-family: sans-serif;
-            font-weight: bold;
-        }
+      #tooltip th {
+        padding-right: 10px;
+        font-size: 12px;
+      }
 
-        .Legendfb{
-            fill: #660000;
-            font-size: 20pt;
-        }
-        .LegendFlickr{
-            fill: green;
-            font-size: 18pt;
-        }
-        .LegendFriendster{
-            fill: navy;
-            font-size: 18pt;
-        }
-        .LegendGoogle_Buzz{
-            fill: mediumvioletred;
-            font-size: 18pt;
-        }
-        .LegendGooglePlus{
-            fill: black;
-            font-size: 18pt;
-        }
-        .LegendHi5{
-            fill: sandybrown;
-            font-size: 18pt;
-        }
-        .LegendInsta{
-            fill: yellow;
-            font-size: 18pt;
-        }
-        .LegendMySpace{
-            fill: orangered;
-            font-size: 18pt;
-        }
-        .LegendOrkut{
-            fill: slategray;
-            font-size: 18pt;
-        }
-        .LegendPinterest{
-            fill: purple;
-            font-size: 18pt;
-        }
-        .LegendReddit{
-            fill: burlywood;
-            font-size: 18pt;
-        }
-        .LegendSnapchat{
-            fill: cornflowerblue;
-            font-size: 18pt;
-        }
-        .LegendTikTok{
-            fill: goldenrod;
-            font-size: 18pt;
-        }
-        .LegendWeChat{
-            fill: deepskyblue;
-            font-size: 18pt;
-        }
-        .LegendWeibo{
-            fill: mediumseagreen;
-            font-size: 18pt;
-        }
-        .LegendWhatsapp{
-            fill: blue;
-            font-size: 18pt;
-        }
-        .LegendYouTube{
-            fill: khaki;
-            font-size: 18pt;
-        }
-        .LegendTumblr{
-            fill: teal;
-            font-size: 18pt;
-        }
-        .LegendTwitter{
-            fill: sandybrown;
-            font-size: 18pt;
-        }
-        .label{
-            font-family: sans-serif;
-            font-weight: bold;
-            font-size: 20pt;
-        }
-        .title{
-            text-align: center;
-            font-family: sans-serif;
-            font-weight: bold;
-            font-size: 20pt;
-
+      #tooltip td {
+        font-size: 14px;
+        padding-right: 5px;
+      }
+        .container{
+            height: 300px;
+            width: 500px;
+            border: 2px solid black;
+            margin-top: 30px;
         }
     </style>
-    <script src="lib/d3.js"></script>
-</head>
-<body>
-<div id="tooltip"></div>
-<script>
-    const margins ={
-        top: 30,
-        bottom: 100,
-        left: 40,
-        right: 30
-    }
-    const svg = d3.select("body").append("svg")
-    const height= 1500;
-    const width =1700;
-    svg.attr("viewBox",`0,0,${width},${height}`)
-    d3.csv("./data/active_users.csv",d=> {
+  </head>
 
-        return {
-            date: new Date(d['Year']),
-            fb: Number(d['Facebook']),
-            Flickr: Number(d['Flickr']),
-            Friendster: Number(d['Friendster']),
-            Google_Buzz: Number(d['Google Buzz']),
-            GooglePlus: Number(d['Google+']),
-            Hi5: Number(d['Hi5']),
-            Insta: Number(d['Instagram']),
-            MySpace: Number(d['MySpace']),
-            Orkut: Number(d['Orkut']),
-            Pinterest: Number(d['Pinterest']),
-            Reddit: Number(d['Reddit']),
-            Snapchat: Number(d['Snapchat']),
-            TikTok: Number(d['TikTok']),
-            Tumblr: Number(d['Tumblr']),
-            Twitter: Number(d['Twitter']),
-            WeChat: Number(d['WeChat']),
-            Weibo: Number(d['Weibo']),
-            Whatsapp: Number(d['Whatsapp']),
-            YouTube: Number(d['YouTube'])
-        }
-    }).then(data=>{
-        const date_year = d3.extent(data,d=>d.date)
-        const fb_max = d3.max(data,d=>d.fb)
-        const Flickr_max = d3.max(data,d=>d.Flickr)
-        const Friendster_max = d3.max(data,d=>d.Friendster)
-        const Google_Buzz_max = d3.max(data,d=>d.Google_Buzz)
-        const GooglePlus_max = d3.max(data,d=>d.GooglePlus)
-        const Hi5_max = d3.max(data,d=>d.Hi5)
-        const Insta_max = d3.max(data,d=>d.Insta)
-        const MySpace_max = d3.max(data,d=>d.MySpace)
-        const Orkut_max = d3.max(data,d=>d.Orkut)
-        const Pinterest_max = d3.max(data,d=>d.Pinterest)
-        const Reddit_max = d3.max(data,d=>d.Reddit)
-        const Snapchat_max = d3.max(data,d=>d.Snapchat)
-        const TikTok_max = d3.max(data,d=>d.TikTok)
-        const Tumblr_max = d3.max(data,d=>d.Tumblr)
-        const Twitter_max = d3.max(data,d=>d.Twitter)
-        const WeChat_max = d3.max(data,d=>d.WeChat)
-        const Weibo_max = d3.max(data,d=>d.Weibo)
-        const Whatsapp_max = d3.max(data,d=>d.Whatsapp)
-        const YouTube_max = d3.max(data,d=>d.YouTube)
-        const user_max_array = [fb_max,Flickr_max,Friendster_max,Google_Buzz_max,GooglePlus_max,Hi5_max,Insta_max,
-            MySpace_max,Orkut_max,Pinterest_max,Reddit_max,Snapchat_max,TikTok_max,Tumblr_max,Twitter_max,WeChat_max,Weibo_max,Whatsapp_max,YouTube_max]
-        const user_max = d3.max(user_max_array)
-        const user_min_max = ['0',user_max]
-
-        const xScale = d3.scaleTime()
-            .domain(date_year)
-            .range([margins.left,width-margins.right]);
-        const yScale = d3.scaleLinear()
-            .domain(user_min_max)
-            .range([height - margins.bottom,margins.top]);
-
-        const xAxis = d3.axisBottom().scale(xScale);
-        const yAxis = d3.axisLeft().scale(yScale);
+  <body>
+  <div class="header">
+    <div class = "inner_header">
+      <div class = "title1">
+        <h1>Rise Of <span>Social Media and It's Impact On Mental Health</span></h1>
+      </div>
+    </div>
+  </div>
 
 
-        svg.append('g').attr("class",'axis')
-            .attr("transform",`translate(0, ${height-margins.bottom})`)
-            .call(xAxis);
-        svg.append('g').attr("class",'axis')
-            .attr("transform",`translate(${margins.left},0)`)
-            .call(yAxis);
+    <div class="container">
+      <h1 style="text-align:center;">Rise Of Social Media - Number of Users By Social Media Apps</h1>
+      <form action="index1.html">
+       <button class="btn btn-danger btn-lg">click here</button>
+      </form>
+  </div>
 
+    <div class="container">
+      <h1 style="text-align:center;">Rise Of Social Media - Usage By Social Media Apps</h1>
+      <form action="index2.html">
+        <button class="btn btn-danger btn-lg">click here</button>
+      </form>
+    </div>
+  </body>
 
+  <div class="container">
+    <h1 style="text-align:center;">Social Media - Most used words in 16 surveys</h1>
+    <form action="index3.html">
+      <button class="btn btn-danger btn-lg">click here</button>
+    </form>
+  </div>
 
-        const Linefb = d3.line()
-                .x(d=>xScale(d.date))
-                .y(d=>yScale(d.fb))
-                .curve(d3.curveCatmullRom.alpha(0.5))
+  <div class="container">
+    <h1 style="text-align:center;">Social Media - Countries and Continents Force Simulation based on Time Spent On Social Media</h1>
+    <form action="index4.html">
+      <button class="btn btn-danger btn-lg">click here</button>
+    </form>
+  </div>
+  </body>
 
-        const LineFlickr = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Flickr))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineFriendster = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Friendster))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineGoogle_Buzz = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Google_Buzz))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineGooglePlus = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.GooglePlus))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineHi5 = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Hi5))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineInsta = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Insta))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineMySpace = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.MySpace))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineOrkut = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Orkut))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LinePinterest = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Pinterest))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineReddit = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Reddit))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineSnapchat = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Snapchat))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineTikTok = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.TikTok))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineTumblr = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Tumblr))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineTwitter = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Twitter))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineWeChat = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.WeChat))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineWeibo = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Weibo))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineWhatsapp = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.Whatsapp))
-            .curve(d3.curveCatmullRom.alpha(0.5))
-        const LineYouTube = d3.line()
-            .x(d=>xScale(d.date))
-            .y(d=>yScale(d.YouTube))
-            .curve(d3.curveCatmullRom.alpha(0.5))
+  <script>
+   dashboard();
 
-
-
-
-
-        const LineMarkfb = svg.append('g').attr("class",'clsfb');
-        LineMarkfb
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>Linefb(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Facebook</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.fb).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkFlickr = svg.append('g').attr("class",'clsFlickr');
-        LineMarkFlickr
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineFlickr(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Flickr</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Flickr).slice(-7)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2013</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkFriendster = svg.append('g').attr("class",'clsFriendster');
-        LineMarkFriendster
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineFriendster(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Friendster</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Friendster).slice(-12)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2008</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkGoogle_Buzz = svg.append('g').attr("class",'clsGoogle_Buzz');
-        LineMarkGoogle_Buzz
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineGoogle_Buzz(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Google Buzz</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Google_Buzz).slice(-5)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2015</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkGooglePlus = svg.append('g').attr("class",'clsGooglePlus');
-        LineMarkGooglePlus
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineGooglePlus(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: GooglePlus</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.GooglePlus).slice(-3)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2017</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkHi5 = svg.append('g').attr("class",'clsHi5');
-        LineMarkHi5
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineHi5(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Hi5</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Hi5).slice(-10)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2010</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkInsta = svg.append('g').attr("class",'clsInsta');
-        LineMarkInsta
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineInsta(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Instagram</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Insta).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkMySpace = svg.append('g').attr("class",'clsMySpace');
-        LineMarkMySpace
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineMySpace(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: MySpace</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.MySpace).slice(-12)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2008</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkOrkut = svg.append('g').attr("class",'clsOrkut');
-        LineMarkOrkut
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineOrkut(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Orkut</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Orkut).slice(-10)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2010</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkPinterest = svg.append('g').attr("class",'clsPinterest');
-        LineMarkPinterest
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LinePinterest(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Pinterest</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Pinterest).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkReddit = svg.append('g').attr("class",'clsReddit');
-        LineMarkReddit
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineReddit(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Reddit</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Reddit).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkSnapchat = svg.append('g').attr("class",'clsSnapchat');
-        LineMarkSnapchat
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineSnapchat(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Snapchat</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Snapchat).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkTikTok = svg.append('g').attr("class",'clsTikTok');
-        LineMarkTikTok
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineTikTok(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: TikTok</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.TikTok).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkTumblr = svg.append('g').attr("class",'clsTumblr');
-        LineMarkTumblr
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineTumblr(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Tumblr</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Tumblr).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkTwitter = svg.append('g').attr("class",'clsTwitter');
-        LineMarkTwitter
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineTwitter(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Twitter</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Twitter).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkWeChat = svg.append('g').attr("class",'clsWeChat');
-        LineMarkWeChat
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineWeChat(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: WeChat</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.WeChat).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkWeibo = svg.append('g').attr("class",'clsWeibo');
-        LineMarkWeibo
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineWeibo(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Weibo</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Weibo).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkWhatsapp = svg.append('g').attr("class",'clsWhatsapp');
-        LineMarkWhatsapp
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineWhatsapp(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: Whatsapp</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.Whatsapp).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-        const LineMarkYouTube = svg.append('g').attr("class",'clsYouTube');
-        LineMarkYouTube
-            .selectAll('lines')
-            .data([data])
-            .enter()
-            .append("path")
-            .attr("d",d=>LineYouTube(d))
-            .on("mousemove",function (m,d){
-                d3.select('#tooltip')
-                    .style("opacity",1)
-                    .style("left",(m.clientX+10).toString()+"px")
-                    .style("top",(m.clientY+10).toString()+"px")
-                    .html(
-                        "<div class='tooltipData'>Platform: YouTube</div>" +
-                        "<div class='tooltipData'>most users:"+d.map(d=>d.YouTube).slice(-2)[0]+"</div>"+
-                        "<div class='tooltipData'>Year: 2018</div>")
-            })
-            .on("mouseout",(d,m)=>{
-                d3.select("#tooltip").style("opacity",.5)
-            })
-
-        const legend = svg.append('g')
-            .attr("class","legend")
-            .attr("transform","translate(25,10)")
-            .selectAll()
-            .data([{name:"Facebook",class:"Legendfb"},
-                {name:"Flickr",class:"LegendFlickr"},{name:"Friendster",class:"LegendFriendster"},{name:"Google_Buzz",class:"LegendGoogle_Buzz"},{name:"GooglePlus",class:"LegendGooglePlus"},
-                {name:"Hi5",class:"LegendHi5"},{name:"Insta",class:"LegendInsta"},{name:"MySpace",class:"LegendMySpace"},{name:"Orkut",class:"LegendOrkut"},
-                {name:"Pinterest",class:"LegendPinterest"},{name:"Reddit",class:"LegendReddit"},{name:"Snapchat",class:"LegendSnapchat"},{name:"TikTok",class:"LegendTikTok"},
-                {name:"Tumblr",class:"LegendTumblr"},{name:"Twitter",class:"LegendTwitter"},{name:"WeChat",class:"LegendWeChat"},{name:"Weibo",class:"LegendWeibo"},
-                {name:"Whatsapp",class:"LegendWhatsapp"},{name:"YouTube",class:"LegendYouTube"},])
-            .enter()
-            .append("g")
-            .attr("class",d=>d.class)
-            .attr("transform",(d,i)=>{
-                return `translate(${width},${i*30})`
-            })
-
-        legend.append("rect")
-            .attr('width',"30px")
-            .attr('height',"6px")
-
-        legend.append("text")
-            .text(d=>d.name)
-            .attr("dx","50px")
-            .attr("dy","10px")
-
-
-        svg.append("text")
-            .attr("class","label")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -160)
-            .attr("x",0-(height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .text("Number of people using social media in US")
-
-        svg.append("text")
-            .attr("class","label")
-            .attr("transform",`translate(${width/2}, ${(height)-20})` )
-            .style("text-anchor", "middle")
-            .text("Year");
-
-
-
-
-
-    })
-
-</script>
-
-</body>
+  </script>
 </html>
